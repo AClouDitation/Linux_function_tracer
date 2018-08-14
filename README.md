@@ -7,6 +7,19 @@ This tool is used to statically analyzing linux functions
 main.py will first find all global functions and store them in *OUTPUTPATH/global_function_list.txt*
 then, all driver folders will be searched by **ENTRY_RULE**
 
+**PLESASE MODIFY THIS CONFIGS AT THE BEGINNEING OF *main.py* BEFORE RUNNING**
+```
+# DESIRED ENTRY FUNCTION RULE
+RULE = "YOUR RULE WITH REGULAR EXPRESSION"
+
+# DIRS
+VER = "4.4-rc6"
+KERNEL_PATH = "YOUR_KERNEL_PATH/linux-" + VER
+BUILD_PATH 	= os.path.join(KERNEL_PATH,"build/")
+DRIVER_PATH = os.path.join(KERNEL_PATH,"build/drivers/")
+OUTPUT_PATH = "./data_" + VER + "/"
+```
+
 ## spfunc_tracer.py
 spfunc_tracer can trace one specific function, reporting every 
 function on its call path, with their location and SLoC

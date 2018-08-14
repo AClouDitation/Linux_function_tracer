@@ -39,3 +39,5 @@ this script finds all datatypes used in a given kernel
 
 it takes one argument, the version number
 
+please run main.py before running this
+

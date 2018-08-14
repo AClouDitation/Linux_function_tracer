@@ -10,7 +10,9 @@ RULE = "[^\s]+(?:suspend|resume)"
 
 # DIRS
 VER = "4.4-rc6"
-KERNEL_PATH = "/home/yq/Git/Linux_Kernel_ABI_Tracker/kernel/linux-" + VER
+
+## substitute with your own pathes
+KERNEL_PATH = os.path.join("/home/yq/Git/Linux_Kernel_ABI_Tracker/kernel","/linux-" + VER)
 BUILD_PATH 	= os.path.join(KERNEL_PATH,"build/")
 DRIVER_PATH = os.path.join(KERNEL_PATH,"build/drivers/")
 OUTPUT_PATH = "./data_" + VER + "/"

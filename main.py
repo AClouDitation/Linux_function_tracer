@@ -27,8 +27,11 @@ for d in traversalDir_FirstDir(DRIVER_PATH):
 		os.mkdir(path)
 
 	# Generate entry dictionary
-	entry_dict = gen_entry_list(os.path.join(DRIVER_PATH,d),
-		global_dict, path, KERNEL_PATH)
+	entry_dict = gen_entry_list(
+		os.path.join(DRIVER_PATH,d),
+		global_dict, path, KERNEL_PATH,
+		"[^\s]+(?:suspend|resume)")
+
 	for key in entry_dict:
 			entry_dict[key].attr += ' entry'
 

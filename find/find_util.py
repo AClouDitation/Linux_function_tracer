@@ -52,7 +52,8 @@ def gen_global_list(build_path, kernel_path):
 # @gdic: global function dictionary
 # @output_path: output path
 # @kernel_path: kernel path
-def gen_entry_list(build_path, gdic, output_path, kernel_path):
+# @rule: regular expression matching desired entry functions
+def gen_entry_list(build_path, gdic, output_path, kernel_path, rule):
 	print('finding entries...', file=sys.stderr)
 	edic = {}
 	for roots,dirs,files in os.walk(build_path):
@@ -62,7 +63,7 @@ def gen_entry_list(build_path, gdic, output_path, kernel_path):
 					continue
 				path = os.path.join(roots,f)
 				print(path, file=sys.stderr)
-				edic = {**edic, **find_entry_func(path, gdic)}
+				edic = {**edic, **find_entry_func(path, gdic, rule)}
 
 	with open(os.path.join(output_path,"entry_list.txt"),"w") as f:
 		f.write('----------------entry func list----------------\n')
@@ -131,7 +132,8 @@ def find_global_func(path):
 # Find all entry functions in certain object file
 # @path: target file path
 # @gdic: global dictionary
-def find_entry_func(path, gdic):
+# @rule: regular expression matching desired entry functions
+def find_entry_func(path, gdic, rule):
 
 	func_dic = {}
 	# Dump it!
@@ -145,7 +147,8 @@ def find_entry_func(path, gdic):
 	# 	general symbol tabel paser
 	symrule	 	= re.compile("[\da-f]{8}\s([\s\S]{6}F)\s[^\s]+\s[\da-f]{8}\s([^\s]+)\n")
 	#	determine line is desired entry
-	entryrule 	= re.compile("[^\s]+(?:suspend|resume)")
+	entryrule 	= re.compile(rule)
+	#entryrule 	= re.compile("[^\s]+(?:suspend|resume)")
 
 	# Find all valid entry name
 	name_ls = set([x.group(2) for x in symrule.finditer(symtable)\

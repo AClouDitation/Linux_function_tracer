@@ -1,6 +1,7 @@
 import os
 import sys
 import re
+from . import find_util as util
 
 # Constants
 FUNC_GENERAL_RULE = re.compile("[\da-f]{8}\s<[^+\n]+>:")
@@ -109,7 +110,7 @@ class Func(object):
 		if self.path is None: return
 		# If haven't dump yet, try to dump
 		if self.dump is None:
-			self.symtable, self.dump = objdump(self.path)
+			self.symtable, self.dump = util.objdump(self.path)
 		# Find assymbly code if not processed yet
 		if self.ascode is None and self.dump is not None:
 			self.ascode = self.__find_func_ascode()
@@ -130,57 +131,6 @@ class Func(object):
 # @name: target function name
 def func_dec_rule(name):
 	return "[\da-f]{8}\s<("+name+")>:"
-
-# Find all global functions in kernel
-# @path: build path
-def find_global_func(path):
-	func_dic = {}
-	symtable, dump = objdump(path)
-	if symtable is None or dump is None:
-		return func_dic 
-
-	symrule = re.compile("[\da-f]{8}\s([\s\S]{6}F)\s[^\s]+\s[\da-f]{8}\s([^\s]+)\n")
-
-	# we assume global functions are unique
-	name_ls = [x.group(2) for x in symrule.finditer(symtable) \
-		if x.group(1)[0] == 'g' or x.group(1)[0] == 'u']
-			
-	for x in name_ls:
-		func_dic[x] = Func(x, path, symtable, dump)
-		
-	return func_dic
-
-
-# Find all entry functions in certain object file
-# @path: target file path
-# @gdic: global dictionary
-def find_entry_func(path, gdic):
-
-	func_dic = {}
-	# Dump it!
-	symtable, dump = objdump(path)
-
-	# If failed to dump, return
-	if symtable is None or dump is None:
-		return func_dic 
-
-	# RE rule for suspend/resume entry
-	# 	general symbol tabel paser
-	symrule	 	= re.compile("[\da-f]{8}\s([\s\S]{6}F)\s[^\s]+\s[\da-f]{8}\s([^\s]+)\n")
-	#	determine line is desired entry
-	entryrule 	= re.compile("[^\s]+(?:suspend|resume)")
-
-	# Find all valid entry name
-	name_ls = set([x.group(2) for x in symrule.finditer(symtable)\
-		if entryrule.match(x.group(2))])
-
-	for x in name_ls: 
-		if x in gdic:
-			func_dic[x] = gdic[x]
-		else:
-			func_dic[x] = Func(x, path, symtable, dump) 
-
-	return func_dic
 
 # Generate call tree!
 # @func: target function
@@ -219,31 +169,4 @@ def print_call_tree(func, depth, fp, visited):
 		print("%s: %s"%('\t' + '│\t\t'*depth + '├━━━━━━'+\
 			func.call[f].name, func.call[f].attr), file=fp)
 		print_call_tree(func.call[f], depth + 1, fp, visited)
-
-
-# Dump object file
-# @path: object file path
-def objdump(path):
-	
-	if path[-2:] != ".o":
-		print("error dumping file path:",path)
-		return None, None
-	dump_path, dump_name = os.path.split(path)
-	dump_path = os.path.join(dump_path, dump_name[:-2] + '.dump')
-	if not os.path.exists(dump_path):
-		cmd = 'arm-linux-gnueabihf-objdump -D -t ' + path + ' > ' + dump_path
-		os.system(cmd)
-	f = open(dump_path,'r')
-	if f is not None:
-		dump = f.read()
-		f.close()
-		s1 = re.search("SYMBOL TABLE:",dump)
-		s2 = re.search("Disassembly of section [^:]+:",dump)
-		if s1 == None or s2 == None:
-			print(path,file=sys.stderr)
-			return None, None
-		return dump[s1.end():s2.start()].strip()+'\n', dump[s2.end():].strip()+'\n'
-
-	print("failed to dump file")
-	return None, None
 

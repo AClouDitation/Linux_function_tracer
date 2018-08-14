@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 import os
+import re
 from find.find_util import pre_process, traversalDir_FirstDir,\
 					  	   gen_entry_list, fprint_list
 from find.find_func import gen_call_tree, print_call_tree
@@ -60,9 +61,6 @@ for roots,dirs,files in os.walk(OUTPUT_PATH):
 			with open(path,'r') as fp:
 				for line in fp:
 					func, path = line.strip().split(' ')
-					if (func,path) in funclist:
-						duplist.add((func,path))
-
 					funclist.add((func,path))			
 
 with open('funclist.txt', 'w') as fp:

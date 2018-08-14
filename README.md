@@ -8,7 +8,7 @@ main.py will first find all global functions and store them in *OUTPUTPATH/globa
 then, all driver folders will be searched by **ENTRY_RULE**
 
 **PLESASE MODIFY THIS CONFIGS AT THE BEGINNEING OF *main.py* BEFORE RUNNING**
-```
+```python
 # DESIRED ENTRY FUNCTION RULE
 RULE = "YOUR RULE WITH REGULAR EXPRESSION"
 

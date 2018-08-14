@@ -5,8 +5,7 @@ This tool is used to statically analyzing linux functions
 
 ## main.py
 main.py will first find all global functions and store them in *OUTPUTPATH/global_function_list.txt*
-
-then, all driver folders will be searched by entry rule implements in ???.py
+then, all driver folders will be searched by **ENTRY_RULE**
 
 ## spfunc_tracer.py
 spfunc_tracer can trace one specific function, reporting every 

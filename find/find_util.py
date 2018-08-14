@@ -148,7 +148,6 @@ def find_entry_func(path, gdic, rule):
 	symrule	 	= re.compile("[\da-f]{8}\s([\s\S]{6}F)\s[^\s]+\s[\da-f]{8}\s([^\s]+)\n")
 	#	determine line is desired entry
 	entryrule 	= re.compile(rule)
-	#entryrule 	= re.compile("[^\s]+(?:suspend|resume)")
 
 	# Find all valid entry name
 	name_ls = set([x.group(2) for x in symrule.finditer(symtable)\

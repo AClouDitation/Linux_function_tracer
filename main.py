@@ -5,6 +5,9 @@ from find.find_util import pre_process, traversalDir_FirstDir,\
 					  	   gen_entry_list, fprint_list
 from find.find_func import gen_call_tree, print_call_tree
 
+# DESIRED ENTRY FUNCTION RULE
+RULE = "[^\s]+(?:suspend|resume)"
+
 # DIRS
 VER = "4.4-rc6"
 KERNEL_PATH = "/home/yq/Git/Linux_Kernel_ABI_Tracker/kernel/linux-" + VER
@@ -30,7 +33,7 @@ for d in traversalDir_FirstDir(DRIVER_PATH):
 	entry_dict = gen_entry_list(
 		os.path.join(DRIVER_PATH,d),
 		global_dict, path, KERNEL_PATH,
-		"[^\s]+(?:suspend|resume)")
+		RULE)
 
 	for key in entry_dict:
 			entry_dict[key].attr += ' entry'

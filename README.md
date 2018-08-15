@@ -7,7 +7,7 @@ This tool is used to statically analyzing linux functions
 main.py will first find all global functions and store them in *OUTPUTPATH/global_function_list.txt*
 then, all driver folders will be searched by **ENTRY_RULE**
 
-**PLESASE MODIFY THIS CONFIGS AT THE BEGINNEING OF *main.py* BEFORE RUNNING**
+**PLESASE MODIFY THESE CONFIGS AT THE BEGINNEING OF *main.py* BEFORE RUNNING**
 ```python
 # DESIRED ENTRY FUNCTION RULE
 RULE = "YOUR RULE WITH REGULAR EXPRESSION"

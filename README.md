@@ -1,6 +1,6 @@
 # Linux Function Tracer
-This tool is used to statically analyzing linux functions
-
+This tool is used to statically analyzing linux functions, 
+reporting call paths of a specific group of functions, their Locations and # of SLOC
 # USAGE
 
 ## main.py

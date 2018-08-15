@@ -11,8 +11,8 @@ reporting:
 
 example linux compiling cmd:
 ``` bash
-  mkdir build && cd build
-  make -C ".." O=$(pwd) -j4
+mkdir build && cd build
+make -C ".." O=$(pwd) -j4
 ```
 ## main.py
 main.py will first find all global functions and store them in *OUTPUTPATH/global_function_list.txt*

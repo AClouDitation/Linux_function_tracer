@@ -1,6 +1,12 @@
 # Linux Function Tracer
 This tool is used to statically analyzing linux functions, 
-reporting call paths of a specific group of functions, their Locations and # of SLOC
+
+Functions in *driver* folder for now
+
+reporting:
+* call paths of a specific group of functions
+* Location of functions on call path
+* #SLoC
 # USAGE
 
 ## main.py
